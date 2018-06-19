@@ -1,34 +1,39 @@
-/* global Chart */
-
-/**
- * --------------------------------------------------------------------------
- * CoreUI Free Boostrap Admin Template (v2.0.0-beta.3): main.js
- * Licensed under MIT (https://coreui.io/license)
- * --------------------------------------------------------------------------
- */
-
-/* eslint-disable no-magic-numbers */
-var ChartsView = function ($) {
-    // random Numbers
-    var random = function random() {
-        return Math.round(Math.random() * 100);
-    }; // eslint-disable-next-line no-unused-vars
-
-    var pieChart = new Chart($('#canvas-5'), {
-        type: 'pie',
-        data: {
-            labels: ['Neutral', 'Sad', 'Happy'],
-            datasets: [{
-                data: data,
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-            }]
+var barChart = new Chart($('#canvas-2'), {
+    type: 'bar',
+    data: {
+        labels: titles,
+        datasets: [{
+            backgroundColor: 'rgba(255, 20, 20, 0.5)',
+            borderColor: 'rgba(255, 20, 20, 0.8)',
+            highlightFill: 'rgba(255, 20, 20, 0.75)',
+            highlightStroke: 'rgba(255, 20, 20, 1)',
+            data: data["Sad"],
+            label: "Sad"
+        }, {
+            backgroundColor: 'rgba(151, 187, 205, 0.5)',
+            borderColor: 'rgba(151, 187, 205, 0.8)',
+            highlightFill: 'rgba(151, 187, 205, 0.75)',
+            highlightStroke: 'rgba(151, 187, 205, 1)',
+            data: data["Neutral"],
+            label: "Neutral"
+        }, {
+            backgroundColor: 'rgba(51, 255, 5, 0.5)',
+            borderColor: 'rgba(51, 255, 5, 0.8)',
+            highlightFill: 'rgba(51, 255, 5, 0.75)',
+            highlightStroke: 'rgba(51, 255, 5, 1)',
+            data: data["Happy"],
+            label: "Happy"
+        }],
+    },
+    options: {
+        responsive: true,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    fixedStepSize: 1,
+                    beginAtZero:true
+                }
+            }],
         },
-        options: {
-            responsive: true
-        }
-    }); // eslint-disable-next-line no-unused-vars
-
-    return ChartsView;
-}($);
-//# sourceMappingURL=charts.js.map
+    }
+});
