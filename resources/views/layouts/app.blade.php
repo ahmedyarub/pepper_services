@@ -129,6 +129,11 @@
                         <i class="nav-icon icon-chart"></i> Charts</a>
                 </li>
                 <li class="divider"></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{action('EmotionsController@suggestions_table')}}">
+                        <i class="nav-icon icon-social-youtube"></i> Suggestions Videos</a>
+                </li>
+
             </ul>
         </nav>
         <button class="sidebar-minimizer brand-minimizer" type="button"></button>

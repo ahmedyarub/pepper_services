@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Emotion;
+use App\Suggestion;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -19,6 +20,17 @@ class EmotionsController extends Controller
                         $query->where('created_at', '>=', Carbon::createFromDate($request->year, $request->month, $request->day - 1))
                             ->where('created_at', '<=', Carbon::createFromDate($request->year, $request->month, $request->day + 1));
                     })
+                    ->get());
+    }
+
+    public function suggestions_table(Request $request)
+    {
+        return view('suggestions.table')
+            ->with('suggestions',
+                Suggestion::when(!empty($request->day), function ($query) use ($request) {
+                    $query->where('created_at', '>=', Carbon::createFromDate($request->year, $request->month, $request->day - 1))
+                        ->where('created_at', '<=', Carbon::createFromDate($request->year, $request->month, $request->day + 1));
+                })
                     ->get());
     }
 
@@ -73,7 +85,7 @@ class EmotionsController extends Controller
                     $index = $date_from->diffInHours(Carbon::now());
             }
 
-            $result[$emotion->emotion] [$index-1]++;
+            $result[$emotion->emotion] [$index - 1]++;
         }
 
         return view('emotions.chart')
@@ -105,5 +117,41 @@ class EmotionsController extends Controller
     {
         return response()->file(storage_path() . '/app/emotions/' . Emotion::find($request->id)->image_file,
             ['Content-Type' => 'image/jpg']);
+    }
+
+    public function suggestion_video(Request $request)
+    {
+        return response()->file(storage_path() . '/app/suggestions/' . Suggestion::find($request->id)->video_file,
+            ['Content-Type' => 'video/avi']);
+    }
+
+
+    public function post_emotion_image(Request $request)
+    {
+        $emotion = new Emotion();
+        $emotion->emotion = $request->emotion;
+
+        if (!empty($request->file())) {
+            $emotion->image_file = $request->file('image')->getClientOriginalName();
+
+            $request->file('image')->storeAs('emotions', $emotion->image_file);
+        }
+        $emotion->save();
+
+        return response()->json(['status' => 0]);
+    }
+
+    public function post_suggestion_video(Request $request)
+    {
+        $suggestion = new Suggestion();
+
+        if (!empty($request->file())) {
+            $suggestion->video_file = $request->file('video')->getClientOriginalName();
+
+            $request->file('video')->storeAs('suggestions', $suggestion->video_file);
+        }
+        $suggestion->save();
+
+        return response()->json(['status' => 0]);
     }
 }
