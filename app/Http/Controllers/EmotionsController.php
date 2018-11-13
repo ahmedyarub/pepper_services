@@ -57,7 +57,7 @@ class EmotionsController extends Controller
         $result = [[]];
         $titles = [];
         for ($i = 0; $i < $count; $i++) {
-            $result['Sad'][$i] = $result['Neutral'][$i] = $result['Happy'][$i] = 0;
+            $result['sad'][$i] = $result['neutral'][$i] = $result['happy'][$i] = 0;
 
             switch ($period_type) {
                 case 'm':
